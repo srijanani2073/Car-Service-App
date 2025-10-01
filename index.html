@@ -5,61 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Car Service Management - Cost Calculator</title>
   
-  <!-- React and Babel CDN -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Internal CSS -->
+  <!-- Embedded CSS -->
   <style>
-    /* Car Service Management App - Internal CSS */
+    /* Car Service Management App - Embedded CSS */
     * { box-sizing: border-box; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .app-container { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 24px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
     .max-width-wrapper { max-width: 1000px; margin: 0 auto; }
 
-    .header-card { background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 24px; margin-bottom: 24px; }
+    .header-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
     .header-content { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
     .main-title { font-size: 28px; font-weight: bold; color: #667eea; margin: 0; }
     .subtitle { color: #6B7280; margin: 0; font-size: 14px; }
 
-    .form-card { background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 24px; margin-bottom: 24px; }
-    .form-container { display: flex; flex-direction: column; gap: 24px; }
+    .form-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
 
+    .form-container { display: flex; flex-direction: column; gap: 24px; }
     .form-group { display: flex; flex-direction: column; }
     .form-label { font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 8px; }
-    .form-input { width: 100%; padding: 10px 16px; border: 2px solid #D1D5DB; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; }
-    .form-input:focus { border-color: #667eea; }
-    .form-select { width: 100%; padding: 10px 16px; border: 2px solid #D1D5DB; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; background-color: #FFFFFF; cursor: pointer; }
-    .form-select:focus { border-color: #667eea; }
-    .error-message { color: #EF4444; font-size: 13px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #D1D5DB;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      background-color: #FFFFFF;
+      cursor: pointer;
+    }
+    .form-input:focus, .form-select:focus { border-color: #667eea; }
 
-    .radio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 8px; }
-    .radio-label { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border: 2px solid #E5E7EB; border-radius: 8px; cursor: pointer; transition: all 0.2s; background-color: #FFFFFF; }
+    .error-message {
+      color: #EF4444;
+      font-size: 13px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .radio-grid, .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .radio-label, .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background-color: #FFFFFF;
+    }
+
     .radio-label:hover { background-color: #EEF2FF; border-color: #667eea; }
-    .radio-input { margin-top: 4px; width: 16px; height: 16px; cursor: pointer; accent-color: #667eea; }
-    .radio-content { flex: 1; }
-    .radio-title { font-weight: 600; color: #1F2937; margin-bottom: 4px; }
+    .checkbox-label:hover { background-color: #FEF3C7; border-color: #F59E0B; }
+
+    .radio-input, .checkbox-input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .radio-input { accent-color: #667eea; }
+    .checkbox-input { accent-color: #F59E0B; }
+
+    .radio-content, .checkbox-content { flex: 1; }
+    .radio-title, .checkbox-title { font-weight: 600; color: #1F2937; margin-bottom: 4px; }
+    .checkbox-title { font-weight: 500; margin-bottom: 2px; }
     .radio-desc { font-size: 13px; color: #6B7280; margin-bottom: 4px; }
     .radio-price { font-size: 13px; font-weight: 600; color: #667eea; }
-
-    .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 8px; }
-    .checkbox-label { display: flex; align-items: center; gap: 12px; padding: 12px; border: 2px solid #E5E7EB; border-radius: 8px; cursor: pointer; transition: all 0.2s; background-color: #FFFFFF; }
-    .checkbox-label:hover { background-color: #FEF3C7; border-color: #F59E0B; }
-    .checkbox-input { width: 16px; height: 16px; cursor: pointer; accent-color: #F59E0B; }
-    .checkbox-content { flex: 1; }
-    .checkbox-title { font-weight: 500; color: #1F2937; margin-bottom: 2px; }
     .checkbox-price { font-size: 13px; color: #F59E0B; }
 
     .button-container { display: flex; gap: 16px; margin-top: 8px; }
-    .calculate-button { flex: 1; background-color: #10B981; color: #FFFFFF; padding: 14px 24px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; }
+    .calculate-button, .reset-button {
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .calculate-button { flex: 1; background-color: #10B981; color: #FFFFFF; }
     .calculate-button:hover { background-color: #059669; }
     .calculate-button:active { transform: translateY(1px); }
-    .reset-button { padding: 14px 24px; background-color: #EF4444; color: #FFFFFF; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: background-color 0.2s; font-size: 15px; }
+
+    .reset-button { background-color: #EF4444; color: #FFFFFF; }
     .reset-button:hover { background-color: #DC2626; }
     .reset-button:active { transform: translateY(1px); }
 
-    .breakdown-card { background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 24px; animation: fadeIn 0.3s ease-in; margin-bottom: 24px; }
+    .breakdown-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      animation: fadeIn 0.3s ease-in;
+      margin-bottom: 24px;
+    }
+
     .breakdown-title { font-size: 22px; font-weight: bold; color: #1F2937; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; margin-top: 0; }
     .breakdown-content { display: flex; flex-direction: column; gap: 12px; }
     .breakdown-row { display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #E5E7EB; }
@@ -67,11 +144,24 @@
     .breakdown-value { font-weight: 600; color: #1F2937; }
     .breakdown-value.multiplier-applied { color: #3B82F6; }
     .breakdown-value.express-applied { color: #F59E0B; }
-    .total-row { display: flex; justify-content: space-between; padding: 16px; background-color: #DBEAFE; border-radius: 8px; margin-top: 12px; }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px;
+      background-color: #DBEAFE;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
     .total-label { font-size: 18px; font-weight: bold; color: #1F2937; }
     .total-value { font-size: 24px; font-weight: bold; color: #667eea; }
 
-    .info-card { background-color: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 24px; }
+    .info-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+    }
     .info-title { font-size: 20px; font-weight: bold; color: #1F2937; margin-bottom: 12px; margin-top: 0; }
     .info-content { color: #6B7280; line-height: 1.6; }
     .info-paragraph { margin-bottom: 12px; margin-top: 0; }
@@ -85,6 +175,11 @@
       .total-row { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
+
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <div id="root"></div>
@@ -92,99 +187,125 @@
   <script type="text/babel">
     const { useState } = React;
 
-    // Icons
-    const Car = ({ size=24, color="currentColor" }) => (
+    // SVG Icons
+    const Car = ({ size = 24, color = "currentColor" }) => (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
-        <circle cx="7" cy="17" r="2"/>
-        <path d="M9 17h6"/>
-        <circle cx="17" cy="17" r="2"/>
+        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+        <circle cx="7" cy="17" r="2" />
+        <path d="M9 17h6" />
+        <circle cx="17" cy="17" r="2" />
       </svg>
     );
 
-    const Wrench = ({ size=24, color="currentColor" }) => (
+    const Wrench = ({ size = 24, color = "currentColor" }) => (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
       </svg>
     );
 
-    const IndianRupee = ({ size=24, color="currentColor" }) => (
+    const IndianRupee = ({ size = 24, color = "currentColor" }) => (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 3h12"/>
-        <path d="M6 8h12"/>
-        <path d="m6 13 8.5 8"/>
-        <path d="M6 13h3"/>
-        <path d="M9 13c6.667 0 6.667-10 0-10"/>
+        <path d="M6 3h12" />
+        <path d="M6 8h12" />
+        <path d="m6 13 8.5 8" />
+        <path d="M6 13h3" />
+        <path d="M9 13c6.667 0 6.667-10 0-10" />
       </svg>
     );
 
-    const AlertCircle = ({ size=24, color="currentColor" }) => (
+    const AlertCircle = ({ size = 24, color = "currentColor" }) => (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16"/>
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
       </svg>
     );
 
-    // CarServiceApp Component
+    // Car Service App Component
     function CarServiceApp() {
-      const [formData, setFormData] = useState({ customerName:'', carModel:'', serviceType:'', repairs:[], carType:'', urgency:'normal' });
+      const [formData, setFormData] = useState({
+        customerName: '',
+        carModel: '',
+        serviceType: '',
+        repairs: [],
+        carType: '',
+        urgency: 'normal'
+      });
       const [errors, setErrors] = useState({});
       const [totalCost, setTotalCost] = useState(null);
       const [breakdown, setBreakdown] = useState(null);
 
-      const servicePrices = { basic:1500, standard:3500, comprehensive:6500, premium:12000 };
-      const repairPrices = { oilChange:800, brakeService:2500, tyreMaintenance:3000, acService:2000, engineTuning:4500, batteryReplacement:3500 };
-      const carTypeMultipliers = { hatchback:1, sedan:1.2, suv:1.5, luxury:2 };
-      const urgencyMultipliers = { normal:1, express:1.5 };
+      const servicePrices = { basic: 1500, standard: 3500, comprehensive: 6500, premium: 12000 };
+      const repairPrices = { oilChange: 800, brakeService: 2500, tyreMaintenance: 3000, acService: 2000, engineTuning: 4500, batteryReplacement: 3500 };
+      const carTypeMultipliers = { hatchback: 1, sedan: 1.2, suv: 1.5, luxury: 2 };
+      const urgencyMultipliers = { normal: 1, express: 1.5 };
 
       const validateForm = () => {
         const newErrors = {};
-        if(!formData.customerName.trim()) newErrors.customerName='Customer name is required';
-        else if(formData.customerName.length<3) newErrors.customerName='Name must be at least 3 characters';
-        if(!formData.carModel) newErrors.carModel='Please select a car model';
-        if(!formData.serviceType) newErrors.serviceType='Please select a service type';
-        if(!formData.carType) newErrors.carType='Please select your car type';
-        if(formData.repairs.length===0) newErrors.repairs='Please select at least one repair service';
+        if (!formData.customerName.trim()) newErrors.customerName = 'Customer name is required';
+        else if (formData.customerName.length < 3) newErrors.customerName = 'Name must be at least 3 characters';
+        if (!formData.carModel) newErrors.carModel = 'Please select a car model';
+        if (!formData.serviceType) newErrors.serviceType = 'Please select a service type';
+        if (!formData.carType) newErrors.carType = 'Please select your car type';
+        if (formData.repairs.length === 0) newErrors.repairs = 'Please select at least one repair service';
         setErrors(newErrors);
-        return Object.keys(newErrors).length===0;
+        return Object.keys(newErrors).length === 0;
       };
 
       const calculateCost = () => {
-        if(!validateForm()) return;
-        let cost=0;
-        let details={ baseService:0, repairs:[], subtotal:0, carTypeMultiplier:1, urgencyMultiplier:1, gst:0 };
-        details.baseService=servicePrices[formData.serviceType]; cost+=details.baseService;
-        formData.repairs.forEach(r=>{ const c=repairPrices[r]; details.repairs.push({name:r,cost:c}); cost+=c; });
-        details.subtotal=cost;
-        cost*=carTypeMultipliers[formData.carType]; details.carTypeMultiplier=carTypeMultipliers[formData.carType];
-        if(formData.urgency==='express'){ cost*=urgencyMultipliers.express; details.urgencyMultiplier=urgencyMultipliers.express; }
-        details.gst=cost*0.18; cost+=details.gst;
-        setTotalCost(Math.round(cost)); setBreakdown(details);
+        if (!validateForm()) return;
+
+        let cost = 0;
+        let details = { baseService: 0, repairs: [], subtotal: 0, carTypeMultiplier: 1, urgencyMultiplier: 1, gst: 0 };
+
+        if (formData.serviceType) {
+          details.baseService = servicePrices[formData.serviceType];
+          cost += details.baseService;
+        }
+
+        formData.repairs.forEach(r => { details.repairs.push({ name: r, cost: repairPrices[r] }); cost += repairPrices[r]; });
+        details.subtotal = cost;
+
+        if (formData.carType) { details.carTypeMultiplier = carTypeMultipliers[formData.carType]; cost *= details.carTypeMultiplier; }
+        if (formData.urgency === 'express') { details.urgencyMultiplier = urgencyMultipliers.express; cost *= details.urgencyMultiplier; }
+
+        details.gst = cost * 0.18;
+        cost += details.gst;
+
+        setTotalCost(Math.round(cost));
+        setBreakdown(details);
       };
 
-      const handleCheckboxChange=e=>{ const {value,checked}=e.target; setFormData(prev=>({ ...prev, repairs: checked ? [...prev.repairs,value] : prev.repairs.filter(r=>r!==value) })); };
-      const handleRadioChange=e=>{ setFormData(prev=>({ ...prev, serviceType:e.target.value })); };
-      const handleSelectChange=e=>{ const {name,value}=e.target; setFormData(prev=>({ ...prev, [name]:value })); };
-      const handleInputChange=e=>{ const {name,value}=e.target; setFormData(prev=>({ ...prev, [name]:value })); };
-      const resetForm=()=>{ setFormData({customerName:'',carModel:'',serviceType:'',repairs:[],carType:'',urgency:'normal'}); setErrors({}); setTotalCost(null); setBreakdown(null); };
+      const handleCheckboxChange = e => {
+        const { value, checked } = e.target;
+        setFormData(prev => ({
+          ...prev,
+          repairs: checked ? [...prev.repairs, value] : prev.repairs.filter(r => r !== value)
+        }));
+      };
+      const handleRadioChange = e => setFormData(prev => ({ ...prev, serviceType: e.target.value }));
+      const handleSelectChange = e => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+      const handleInputChange = e => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+      const resetForm = () => { setFormData({ customerName:'', carModel:'', serviceType:'', repairs:[], carType:'', urgency:'normal' }); setErrors({}); setTotalCost(null); setBreakdown(null); };
 
       return (
         <div className="app-container">
           <div className="max-width-wrapper">
             <div className="header-card">
-              <div className="header-content"><Car size={32} color="#667eea"/><h1 className="main-title">Car Service Management</h1></div>
+              <div className="header-content"><Car size={32} color="#667eea" /><h1 className="main-title">Car Service Management</h1></div>
               <p className="subtitle">Calculate your car service cost based on repair type and service package</p>
             </div>
 
             <div className="form-card">
               <div className="form-container">
+                {/* Customer Name */}
                 <div className="form-group">
                   <label className="form-label">Customer Name *</label>
-                  <input type="text" name="customerName" value={formData.customerName} onChange={handleInputChange} className="form-input" placeholder="Enter your full name"/>
-                  {errors.customerName && <p className="error-message"><AlertCircle size={16}/> {errors.customerName}</p>}
+                  <input type="text" name="customerName" value={formData.customerName} onChange={handleInputChange} className="form-input" placeholder="Enter your full name" />
+                  {errors.customerName && <p className="error-message"><AlertCircle size={16} /> {errors.customerName}</p>}
                 </div>
 
+                {/* Car Model */}
                 <div className="form-group">
                   <label className="form-label">Car Model *</label>
                   <select name="carModel" value={formData.carModel} onChange={handleSelectChange} className="form-select">
@@ -197,5 +318,119 @@
                     <option value="mahindra_xuv700">Mahindra XUV700</option>
                     <option value="kia_seltos">Kia Seltos</option>
                   </select>
-                  {errors.carModel && <p className="error-message"><AlertCircle size={16}/> {errors.carModel}</p>}
-                </div
+                  {errors.carModel && <p className="error-message"><AlertCircle size={16} /> {errors.carModel}</p>}
+                </div>
+
+                {/* Car Type */}
+                <div className="form-group">
+                  <label className="form-label">Car Type *</label>
+                  <select name="carType" value={formData.carType} onChange={handleSelectChange} className="form-select">
+                    <option value="">Select car type</option>
+                    <option value="hatchback">Hatchback (Base Price)</option>
+                    <option value="sedan">Sedan (+20%)</option>
+                    <option value="suv">SUV (+50%)</option>
+                    <option value="luxury">Luxury (+100%)</option>
+                  </select>
+                  {errors.carType && <p className="error-message"><AlertCircle size={16} /> {errors.carType}</p>}
+                </div>
+
+                {/* Service Package */}
+                <div className="form-group">
+                  <label className="form-label">Service Package *</label>
+                  <div className="radio-grid">
+                    {[
+                      { value: 'basic', label: 'Basic Service', price: 1500, desc: 'Oil & Filter' },
+                      { value: 'standard', label: 'Standard Service', price: 3500, desc: 'Complete Check-up' },
+                      { value: 'comprehensive', label: 'Comprehensive', price: 6500, desc: 'Full Service' },
+                      { value: 'premium', label: 'Premium Service', price: 12000, desc: 'Complete Overhaul' }
+                    ].map(service => (
+                      <label key={service.value} className="radio-label">
+                        <input type="radio" name="serviceType" value={service.value} checked={formData.serviceType === service.value} onChange={handleRadioChange} className="radio-input" />
+                        <div className="radio-content">
+                          <div className="radio-title">{service.label}</div>
+                          <div className="radio-desc">{service.desc}</div>
+                          <div className="radio-price">₹{service.price}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.serviceType && <p className="error-message"><AlertCircle size={16} /> {errors.serviceType}</p>}
+                </div>
+
+                {/* Additional Repairs */}
+                <div className="form-group">
+                  <label className="form-label">Additional Repairs *</label>
+                  <div className="checkbox-grid">
+                    {[
+                      { value: 'oilChange', label: 'Oil Change', price: 800 },
+                      { value: 'brakeService', label: 'Brake Service', price: 2500 },
+                      { value: 'tyreMaintenance', label: 'Tyre Maintenance', price: 3000 },
+                      { value: 'acService', label: 'AC Service', price: 2000 },
+                      { value: 'engineTuning', label: 'Engine Tuning', price: 4500 },
+                      { value: 'batteryReplacement', label: 'Battery Replacement', price: 3500 }
+                    ].map(repair => (
+                      <label key={repair.value} className="checkbox-label">
+                        <input type="checkbox" value={repair.value} checked={formData.repairs.includes(repair.value)} onChange={handleCheckboxChange} className="checkbox-input" />
+                        <div className="checkbox-content">
+                          <div className="checkbox-title">{repair.label}</div>
+                          <div className="checkbox-price">₹{repair.price}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.repairs && <p className="error-message"><AlertCircle size={16} /> {errors.repairs}</p>}
+                </div>
+
+                {/* Urgency */}
+                <div className="form-group">
+                  <label className="form-label">Service Urgency</label>
+                  <select name="urgency" value={formData.urgency} onChange={handleSelectChange} className="form-select">
+                    <option value="normal">Normal (Standard Timeline)</option>
+                    <option value="express">Express Service (+50% charges)</option>
+                  </select>
+                </div>
+
+                {/* Buttons */}
+                <div className="button-container">
+                  <button type="button" onClick={calculateCost} className="calculate-button"><Wrench size={20} /> Calculate Cost</button>
+                  <button type="button" onClick={resetForm} className="reset-button">Reset</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Cost Breakdown */}
+            {totalCost !== null && breakdown && (
+              <div className="breakdown-card">
+                <h2 className="breakdown-title"><IndianRupee size={24} color="#16A34A" /> Cost Breakdown</h2>
+                <div className="breakdown-content">
+                  <div className="breakdown-row"><span className="breakdown-label">Base Service:</span><span className="breakdown-value">₹{breakdown.baseService.toFixed(2)}</span></div>
+                  {breakdown.repairs.map((repair, idx) => <div key={idx} className="breakdown-row"><span className="breakdown-label">{repair.name}:</span><span className="breakdown-value">₹{repair.cost.toFixed(2)}</span></div>)}
+                  <div className="breakdown-row"><span className="breakdown-label">Subtotal:</span><span className="breakdown-value">₹{breakdown.subtotal.toFixed(2)}</span></div>
+                  <div className="breakdown-row"><span className="breakdown-label">Car Type Multiplier (×{breakdown.carTypeMultiplier}):</span><span className="breakdown-value multiplier-applied">Applied</span></div>
+                  {breakdown.urgencyMultiplier > 1 && <div className="breakdown-row"><span className="breakdown-label">Express Service (×{breakdown.urgencyMultiplier}):</span><span className="breakdown-value express-applied">Applied</span></div>}
+                  <div className="breakdown-row"><span className="breakdown-label">GST (18%):</span><span className="breakdown-value">₹{breakdown.gst.toFixed(2)}</span></div>
+                  <div className="total-row"><span className="total-label">Total Amount:</span><span className="total-value">₹{totalCost}</span></div>
+                </div>
+              </div>
+            )}
+
+            {/* Info Card */}
+            <div className="info-card">
+              <h3 className="info-title">How It Works</h3>
+              <div className="info-content">
+                <p className="info-paragraph"><strong>This Car Service Cost Calculator helps you estimate the total service cost for your vehicle.</strong></p>
+                <p className="info-paragraph">The app calculates costs based on selected service package (Basic, Standard, Comprehensive, or Premium), additional repair services, your car type, service urgency, and GST at 18%.</p>
+                <p className="info-paragraph"><strong>Features:</strong> Form validation, real-time cost calculation with detailed breakdown, India-specific pricing, functional React components with hooks.</p>
+                <p className="info-paragraph"><strong>Form Elements:</strong> Three dropdown lists (Car Model, Car Type, Service Urgency), radio buttons for service package selection, checkboxes for multiple repair selections, and text input with validation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<CarServiceApp />);
+  </script>
+</body>
+</html>
